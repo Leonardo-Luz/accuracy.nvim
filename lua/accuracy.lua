@@ -111,9 +111,17 @@ local set_content = function()
     ),
   }
 
+  vim.api.nvim_set_option_value("modifiable", true, {
+    buf = state.window_config.main.floating.buf,
+  })
+
   vim.api.nvim_buf_set_lines(state.window_config.footer.floating.buf, 0, -1, false, footer)
 
   vim.api.nvim_buf_set_lines(state.window_config.main.floating.buf, 0, -1, true, lines)
+
+  vim.api.nvim_set_option_value("modifiable", false, {
+    buf = state.window_config.main.floating.buf,
+  })
 end
 
 local check = function()
@@ -151,7 +159,7 @@ local exit_window = function()
   end)
 end
 
-local create_remaps = function()
+local config = function()
   vim.keymap.set("n", "<ESC><ESC>", function()
     vim.api.nvim_win_close(state.window_config.main.floating.win, true)
   end, {
@@ -167,6 +175,35 @@ local create_remaps = function()
   vim.keymap.set("n", "x", function()
     check()
   end, {
+    buffer = state.window_config.main.floating.buf,
+  })
+
+  vim.keymap.set("n", "/", '<cmd>echo "Do not use search!"<CR>', {
+    buffer = state.window_config.main.floating.buf,
+  })
+
+  vim.keymap.set("n", "?", '<cmd>echo "Do not use search!"<CR>', {
+    buffer = state.window_config.main.floating.buf,
+  })
+
+  vim.keymap.set("n", "*", '<cmd>echo "Do not use search!"<CR>', {
+    buffer = state.window_config.main.floating.buf,
+  })
+
+  vim.keymap.set("n", ":", "<cmd>echo 'Use q, double esc or ZZ to exit!'<CR>", {
+    buffer = state.window_config.main.floating.buf,
+  })
+
+  vim.keymap.set("n", "<left>", '<cmd>echo "Use h to move!!"<CR>', {
+    buffer = state.window_config.main.floating.buf,
+  })
+  vim.keymap.set("n", "<right>", '<cmd>echo "Use l to move!!"<CR>', {
+    buffer = state.window_config.main.floating.buf,
+  })
+  vim.keymap.set("n", "<up>", '<cmd>echo "Use k to move!!"<CR>', {
+    buffer = state.window_config.main.floating.buf,
+  })
+  vim.keymap.set("n", "<down>", '<cmd>echo "Use j to move!!"<CR>', {
     buffer = state.window_config.main.floating.buf,
   })
 
@@ -206,6 +243,10 @@ local start_accuracy = function()
     x = math.random(1, state.map.size.x),
     y = math.random(1, state.map.size.y),
   }
+
+  state.cpm = 0
+  state.accuracy = 0
+  state.streak = 0
   state.correct = 0
   state.wrong = 0
   state.start_timer = os.time()
@@ -216,7 +257,7 @@ local start_accuracy = function()
     float.floating = floatwindow.create_floating_window(float)
   end)
 
-  create_remaps()
+  config()
 
   set_content()
 
@@ -237,7 +278,7 @@ end, {})
 ---@class setup.Opts
 ---@field map_size {x:integer, y:integer}: Set map size. Default {x= 20, y=10}
 
----Setup type plugin
+---Setup accuracy plugin
 ---@param opts setup.Opts
 M.setup = function(opts)
   state.map.size = opts.map_size or { x = 20, y = 10 }
