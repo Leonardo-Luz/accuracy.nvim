@@ -48,12 +48,10 @@ local create_window_config = function()
       },
       opts = {
         relative = "editor",
-        style = "minimal",
-        width = state.map.size.x,
+        width = state.map.size.x + 6,
         height = state.map.size.y,
-        col = math.floor((width - state.map.size.x) / 2),
-        row = math.floor((height - state.map.size.y) / 2),
-        border = { "#", "#", "#", "#", "#", "#", "#", "#" },
+        col = math.floor((width - state.map.size.x - 7) / 2),
+        row = math.floor((height - state.map.size.y + 3) / 2),
       },
       enter = true,
     },
@@ -218,8 +216,8 @@ local config = function()
     group = vim.api.nvim_create_augroup("present-resized", {}),
     callback = function()
       if
-        not vim.api.nvim_win_is_valid(state.window_config.main.floating.win)
-        or state.window_config.main.floating.win == nil
+          not vim.api.nvim_win_is_valid(state.window_config.main.floating.win)
+          or state.window_config.main.floating.win == nil
       then
         return
       end

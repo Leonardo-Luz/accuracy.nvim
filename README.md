@@ -22,6 +22,7 @@ This plugin provides a practice tool inspired by `ThePrimeagen/vim-be-good` hjkl
         map_size = {
             x = 20, -- default: 20
             y = 10 -- default: 10
+            -- hint: lock x in 1 and enable relative number to train jump
         },
     },
 }
