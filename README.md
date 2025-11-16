@@ -4,6 +4,8 @@
 
 This plugin provides a practice tool inspired by `ThePrimeagen/vim-be-good` hjkl game.
 
+![Accuracy Game](./assets/accuracy.gif)
+
 **Features:**
 
 * Tracks accuracy and statistics.
